@@ -1,13 +1,17 @@
 package com.yang.yaiagent.app;
 
 import com.yang.yaiagent.chatmemory.MyBatisPlusChatMemoryRepository;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.api.Advisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -79,6 +83,43 @@ public class LoveApp {
                 .entity(LoveReport.class);
         log.info("报告;{}",entity);
         return entity;
+    }
+
+
+    /**
+     * 恋爱大师本地知识库问答功能
+      */
+    @Resource
+    private VectorStore loveAppVectorStore;
+
+    public String doChatWithVectorStore(String message,String chatId){
+        ChatResponse chatResponse = chatClient.prompt()
+                .advisors(QuestionAnswerAdvisor.builder(loveAppVectorStore).build())
+                .user(message)
+                .call()
+                .chatResponse();
+
+        String text = chatResponse.getResult().getOutput().getText();
+        log.info("test"+text);
+        return text;
+    }
+
+    /**
+     * 恋爱大师云知识库检索增强服务
+     */
+    @Resource
+    private Advisor loveAppAagCloudAdvice;
+
+    public String doChatWithAagCloudAdvice(String message,String chatId){
+        ChatResponse chatResponse = chatClient.prompt()
+                .advisors(loveAppAagCloudAdvice)
+                .user(message)
+                .call()
+                .chatResponse();
+
+        String text = chatResponse.getResult().getOutput().getText();
+        log.info("test"+text);
+        return text;
     }
 
 
