@@ -22,6 +22,12 @@ public class LoveAppVectorStoreConfig {
     @Resource
     private LoveAppDocumentLoader loveAppDocumentLoader;
 
+    @Resource
+    private MyTokenTextSplitter myTokenTextSplitter;
+
+    @Resource
+    private MyKeywordEnricher myKeywordEnricher;
+
     @Bean
     // EmbeddingModel是springAI的EmbeddingModel
     VectorStore loveAppVectorStore(EmbeddingModel dashScopeEmbeddingModel) {
@@ -29,8 +35,14 @@ public class LoveAppVectorStoreConfig {
         SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(dashScopeEmbeddingModel).build();
         // 加载文档
         List<Document> documents = loveAppDocumentLoader.loadMardowns();
+
+        //用自定义Token的分割器分割文档(不建议使用)
+//        List<Document> documents1 = myTokenTextSplitter.splitDocuments(documents);
+
+        //用自定义AI关键词增强器增强文档
+        List<Document> documents1 = myKeywordEnricher.enrichDocuments(documents);
         // 将文档添加到向量数据库
-        simpleVectorStore.add(documents);
+        simpleVectorStore.add(documents1);
         // 返回向量数据库
         return simpleVectorStore;
     }

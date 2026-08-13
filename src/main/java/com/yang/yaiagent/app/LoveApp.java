@@ -1,6 +1,7 @@
 package com.yang.yaiagent.app;
 
 import com.yang.yaiagent.chatmemory.MyBatisPlusChatMemoryRepository;
+import com.yang.yaiagent.rag.QueryRewriter;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -92,10 +93,19 @@ public class LoveApp {
     @Resource
     private VectorStore loveAppVectorStore;
 
+    @Resource
+    private QueryRewriter queryRewriter;
+
     public String doChatWithVectorStore(String message,String chatId){
+
+        //使用查询重写器,重写用户提示词
+        String QueryRewriteMessage = queryRewriter.doQueryRewrite(message);
+
         ChatResponse chatResponse = chatClient.prompt()
                 .advisors(QuestionAnswerAdvisor.builder(loveAppVectorStore).build())
-                .user(message)
+
+                .user(QueryRewriteMessage)
+//                .user(message)
                 .call()
                 .chatResponse();
 

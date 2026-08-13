@@ -56,7 +56,7 @@ class LoveAppTest {
     @Test
     void doChatWithAagCloudAdvice() {
         String chatId = UUID.randomUUID().toString();
-        String message = "给我推荐一些好看的女孩呗!";
+        String message = "给我推荐一些好看的女孩子";
         String answer =  loveApp.doChatWithAagCloudAdvice(message, chatId);
         Assertions.assertNotNull(answer);
     }

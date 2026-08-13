@@ -35,6 +35,8 @@ public class LoveAppDocumentLoader {
             // 遍历资源文件
             for (Resource resource : resources) {
                 String filename = resource.getFilename();
+                // 获取文件状态(单身,恋爱)
+                String status = filename.substring(filename.length()-6, filename.length()-4);
                 // 创建MarkdownDocumentReaderConfig加载器
                 MarkdownDocumentReaderConfig config = MarkdownDocumentReaderConfig.builder()
                         .withHorizontalRuleCreateDocument(true)
@@ -42,6 +44,7 @@ public class LoveAppDocumentLoader {
                         .withIncludeBlockquote(false)
                         // 添加元数据
                         .withAdditionalMetadata("filename", filename)
+                        .withAdditionalMetadata("status", status)
                         .build();
                 MarkdownDocumentReader markdownDocumentReader = new MarkdownDocumentReader(resource, config);
                 // 获取文档
