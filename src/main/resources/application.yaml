@@ -10,6 +10,11 @@ spring:
   ai:
     dashscope:
       api-key: ${AI_DASHSCOPE_API_KEY}
+    # MCP 配置(stdio模式)
+#    mcp:
+#      client:
+#        stdio:
+#          servers-configuration: classpath:mcp-servers.json
 
   datasource:
     # MySQL 数据库连接配置

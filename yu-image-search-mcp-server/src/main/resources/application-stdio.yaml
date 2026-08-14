@@ -1,0 +1,14 @@
+spring:
+  ai:
+    mcp:
+      server:
+        name: yu-image-search-mcp-server
+        version: 0.0.1
+        type: SYNC
+        # stdio
+        stdio: true
+  # stdio
+  #基于本地不用开启web项目
+  main:
+    web-application-type: none
+    banner-mode: off  # 关闭banner信息
