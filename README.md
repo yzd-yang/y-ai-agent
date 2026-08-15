@@ -1,5 +1,7 @@
 # Y-AI-Agent
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 基于 Spring Boot 3 + Spring AI + 阿里云 DashScope（通义千问）构建的多智能体 AI 应用框架。
 
 ## 技术栈
