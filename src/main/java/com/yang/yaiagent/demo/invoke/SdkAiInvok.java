@@ -16,7 +16,7 @@ import com.alibaba.dashscope.utils.Constants;
 
 
 public class SdkAiInvok {
-    static {Constants.baseHttpApiUrl="https://ws-0e2yop8anlnddbs1.cn-beijing.maas.aliyuncs.com/api/v1";}
+    static {Constants.baseHttpApiUrl="https://***/api/v1";}
     public static MultiModalConversationResult callWithMessage() throws ApiException, NoApiKeyException, InputRequiredException, UploadFileException {
         MultiModalConversation conv = new MultiModalConversation();
         MultiModalMessage systemMsg = MultiModalMessage.builder()
