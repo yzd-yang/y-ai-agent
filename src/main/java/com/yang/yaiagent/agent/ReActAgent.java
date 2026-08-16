@@ -1,5 +1,6 @@
 package com.yang.yaiagent.agent;
 
+import com.yang.yaiagent.agent.model.AgentState;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,8 @@ public abstract class ReActAgent extends BaseAgent {
             //先思考
             boolean shouldAct = think();
             if(!shouldAct){
+                // 设置状态为完成
+                setState(AgentState.FINISHED);
                 return  "思考完成 - 无需行动";
             }
 

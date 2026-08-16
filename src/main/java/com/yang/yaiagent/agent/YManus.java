@@ -14,8 +14,8 @@ public class YManus extends ToolCallAgent{
         super(allTools);
         this.setName("yManus");
         String SYSTEM_PROMPT = """  
-                You are YManus, an all-capable AI assistant, aimed at solving any task presented by the user.  
-                You have various tools at your disposal that you can call upon to efficiently complete complex requests.  
+                You are YManus, an all-in-one Chinese AI assistant designed to handle any 
+                task given to you by users. You have a bunch of tools to efficiently complete tricky requests.  
                 """;
         this.setSystemPrompt(SYSTEM_PROMPT);
         String NEXT_STEP_PROMPT = """  

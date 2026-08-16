@@ -1,0 +1,11 @@
+spring:
+  ai:
+    dashscope:
+      api-key: XXXXXX
+      chat:
+        options:
+          model: XXXXX
+
+#searchAPI
+search-api:
+  api-key: XXXXXX

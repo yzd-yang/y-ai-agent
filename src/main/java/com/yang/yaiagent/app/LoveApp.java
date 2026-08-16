@@ -16,6 +16,7 @@ import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -35,17 +36,17 @@ public class LoveApp {
 //        FileBasedChatMemory chatMemory = new FileBasedChatMemory(fileDir);
 
 
-        //基于mysql的对话记忆
-        ChatMemory chatMemory = MessageWindowChatMemory.builder()
-                .chatMemoryRepository(myBatisRepo)
-                .maxMessages(20)
-                .build();
+//        //基于mysql的对话记忆
+//        ChatMemory chatMemory = MessageWindowChatMemory.builder()
+//                .chatMemoryRepository(myBatisRepo)
+//                .maxMessages(20)
+//                .build();
 
 
         //基于内存的对话记忆
-//        ChatMemory chatMemory = MessageWindowChatMemory.builder()
-//                .maxMessages(20)
-//                .build();
+        ChatMemory chatMemory = MessageWindowChatMemory.builder()
+                .maxMessages(20)
+                .build();
 
 //===============================================================================
         chatClient= ChatClient.builder(dashscopeChatModel)
@@ -55,6 +56,12 @@ public class LoveApp {
                 .build();
     }
 
+    /**
+     * 普通对话(同步)
+     * @param message
+     * @param chatId
+     * @return
+     */
     public String doChat(String message,String chatId){
         ChatResponse chatResponse = chatClient
                 .prompt()
@@ -65,6 +72,22 @@ public class LoveApp {
         String text = chatResponse.getResult().getOutput().getText();
         log.info(text);
         return text;
+    }
+    /**
+     * 普通对话(SSE流式返回)
+     * @param message
+     * @param chatId
+     * @return
+     */
+    public Flux<String> doChatSse(String message, String chatId){
+        Flux<String> content = chatClient
+                .prompt()
+                .user(message)
+                .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, chatId))
+                .stream()
+                .content();
+
+        return content;
     }
 
     /**
